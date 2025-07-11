@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Prediction Result</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .chart-container {
+            position: relative;
+            margin: 1rem auto;
+            max-width: 500px;
+            overflow-x: auto;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fff;
+        }
+
+        canvas {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <h2>Prediction Result</h2>
+    <p><strong>{{ prediction.prediction_text }}</strong></p>
+
+    <h3>Probability Visualization</h3>
+    <div class="chart-container">
+        <canvas id="probChart" width="400" height="200"></canvas>
+    </div>
+
+    <h3>Recommendations</h3>
+    <ul>
+        {% for rec in prediction.recommendation %}
+            <li>{{ rec }}</li>
+        {% else %}
+            <li>No recommendations available.</li>
+        {% endfor %}
+    </ul>
+
+    <script>
+        const ctx = document.getElementById('probChart').getContext('2d');
+        const data = {
+            labels: ['No Cancer', 'Cancer'],
+            datasets: [{
+                label: 'Prediction Probability',
+                data: [
+                    {{ prediction.probability.no_cancer | round(3) }},
+                    {{ prediction.probability.cancer | round(3) }}
+                ],
+                backgroundColor: ['#4caf50', '#f44336'],
+            }]
+        };
+
+        const config = {
+            type: 'bar',
+            data: data,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 1
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let value = context.raw;
+                                return `${context.label}: ${(value * 100).toFixed(2)}%`;
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        new Chart(ctx, config);
+    </script>
+</body>
+</html>

@@ -1,0 +1,247 @@
+/* Medical theme enhancements */
+:root {
+    --medical-primary: #0066cc;
+    --medical-success: #28a745;
+    --medical-warning: #ffc107;
+    --medical-danger: #dc3545;
+    --medical-info: #17a2b8;
+    --medical-light: #f8f9fa;
+    --medical-dark: #343a40;
+}
+
+/* Body and layout improvements */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    background-color: var(--bs-gray-100);
+}
+
+/* Card enhancements */
+.card {
+    transition: all 0.3s ease;
+    border-radius: 12px;
+    overflow: hidden;
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
+}
+
+.card-header {
+    border-radius: 12px 12px 0 0 !important;
+    border-bottom: 2px solid rgba(255,255,255,0.1);
+}
+
+/* Form enhancements */
+.form-control, .form-select {
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+    transition: all 0.3s ease;
+    word-break: break-word;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--medical-primary);
+    box-shadow: 0 0 0 0.2rem rgba(0, 102, 204, 0.25);
+}
+
+.form-label {
+    color: var(--bs-gray-700);
+    margin-bottom: 0.75rem;
+}
+
+/* Button enhancements */
+.btn-lg {
+    padding: 0.75rem 2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--medical-primary), #0056b3);
+    border: none;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #0056b3, var(--medical-primary));
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
+}
+
+/* Alert enhancements */
+.alert {
+    border-radius: 8px;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.alert-danger {
+    background: linear-gradient(135deg, #dc3545, #c82333);
+    color: white;
+}
+
+.alert-success {
+    background: linear-gradient(135deg, #28a745, #218838);
+    color: white;
+}
+
+.alert-info {
+    background: linear-gradient(135deg, #17a2b8, #138496);
+    color: white;
+}
+
+/* Navigation enhancements */
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+.navbar {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Chart containers */
+.chart-container {
+    position: relative;
+    margin: 1rem 0;
+    max-width: 600px;
+    margin: 0 auto;
+    overflow-x: auto;
+}
+
+/* Risk level indicators */
+.risk-low {
+    color: var(--medical-success);
+}
+
+.risk-moderate {
+    color: var(--medical-warning);
+}
+
+.risk-high {
+    color: var(--medical-danger);
+}
+
+/* Loading states */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.spinner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.8);
+    z-index: 1000;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .display-5 {
+        font-size: 2rem;
+    }
+
+    .card-body {
+        padding: 1rem;
+    }
+
+    .btn-lg {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+}
+
+/* Medical disclaimer styling */
+footer .container {
+    border-top: 3px solid var(--medical-primary);
+    padding-top: 2rem;
+}
+
+/* Icon enhancements */
+.fas, .far {
+    transition: all 0.3s ease;
+}
+
+.card-header .fas {
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Form validation feedback */
+.is-invalid {
+    border-color: var(--medical-danger);
+}
+
+.is-valid {
+    border-color: var(--medical-success);
+}
+
+/* Accessibility improvements */
+.form-control:focus, .form-select:focus, .btn:focus {
+    outline: 2px solid var(--medical-primary);
+    outline-offset: 2px;
+}
+
+/* Smooth transitions */
+* {
+    transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Chart responsiveness */
+canvas {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Medical professional styling */
+.medical-badge {
+    background: linear-gradient(135deg, var(--medical-primary), var(--medical-info));
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+/* Risk factor cards */
+.risk-factor-card {
+    border-left: 4px solid;
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: 0 8px 8px 0;
+    word-break: break-word;
+}
+
+.risk-factor-card.low {
+    border-left-color: var(--medical-success);
+    background-color: rgba(40, 167, 69, 0.1);
+}
+
+.risk-factor-card.moderate {
+    border-left-color: var(--medical-warning);
+    background-color: rgba(255, 193, 7, 0.1);
+}
+
+.risk-factor-card.high {
+    border-left-color: var(--medical-danger);
+    background-color: rgba(220, 53, 69, 0.1);
+}
+
+/* Large number fix */
+.large-number {
+    font-size: 1.25rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

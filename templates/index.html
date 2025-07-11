@@ -1,0 +1,266 @@
+{% extends "base.html" %}
+
+{% block title %}Cancer Risk Assessment - Prediction Form{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <!-- Header Section -->
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="text-center mb-5">
+                <h1 class="display-5 fw-bold text-primary">
+                    <i class="fas fa-microscope me-3"></i>
+                    Cancer Risk Assessment
+                </h1>
+                <p class="lead text-muted">
+                    Advanced AI-powered cancer risk evaluation for research purposes
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Form Section -->
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="card-title mb-0">
+                        <i class="fas fa-clipboard-list me-2"></i>
+                        Assessment Form
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <form action="/predict" method="POST" id="predictionForm">
+                        <!-- Age -->
+                        <div class="mb-4">
+                            <label for="age" class="form-label fw-semibold">
+                                <i class="fas fa-calendar-alt text-primary me-2"></i>
+                                Age
+                            </label>
+                            <input type="number" class="form-control form-control-lg" id="age" name="age" 
+                                   min="0" max="120" required 
+                                   value="{{ form_data.age if form_data else '' }}">
+                            <div class="form-text">Age in years (0-120)</div>
+                        </div>
+
+                        <!-- Gender -->
+                        <div class="mb-4">
+                            <label for="gender" class="form-label fw-semibold">
+                                <i class="fas fa-venus-mars text-primary me-2"></i>
+                                Gender
+                            </label>
+                            <select class="form-select form-select-lg" id="gender" name="gender" required>
+                                <option value="">--Select Gender--</option>
+                                <option value="0" {{ 'selected' if form_data and form_data.gender == 0 else '' }}>Male</option>
+                                <option value="1" {{ 'selected' if form_data and form_data.gender == 1 else '' }}>Female</option>
+                                <option value="2" {{ 'selected' if form_data and form_data.gender == 2 else '' }}>Other</option>
+                            </select>
+                        </div>
+
+                        <!-- BMI -->
+                        <div class="mb-4">
+                            <label for="bmi" class="form-label fw-semibold">
+                                <i class="fas fa-weight text-primary me-2"></i>
+                                Body Mass Index (BMI)
+                            </label>
+                            <input type="number" class="form-control form-control-lg" id="bmi" name="bmi" 
+                                   step="0.1" min="10" max="60" required
+                                   value="{{ form_data.bmi if form_data else '' }}">
+                            <div class="form-text">BMI value (10.0 - 60.0)</div>
+                        </div>
+
+                        <!-- Smoking -->
+                        <div class="mb-4">
+                            <label for="smoking" class="form-label fw-semibold">
+                                <i class="fas fa-smoking text-primary me-2"></i>
+                                Smoking Status
+                            </label>
+                            <select class="form-select form-select-lg" id="smoking" name="smoking" required>
+                                <option value="">--Select Smoking Status--</option>
+                                <option value="1" {{ 'selected' if form_data and form_data.smoking == 1 else '' }}>Yes, I smoke</option>
+                                <option value="0" {{ 'selected' if form_data and form_data.smoking == 0 else '' }}>No, I don't smoke</option>
+                            </select>
+                        </div>
+
+                        <!-- Genetic Risk -->
+                        <div class="mb-4">
+                            <label for="geneticRisk" class="form-label fw-semibold">
+                                <i class="fas fa-dna text-primary me-2"></i>
+                                Genetic Risk Level
+                            </label>
+                            <select class="form-select form-select-lg" id="geneticRisk" name="geneticRisk" required>
+                                <option value="">--Select Genetic Risk--</option>
+                                <option value="0" {{ 'selected' if form_data and form_data.geneticRisk == 0 else '' }}>Low</option>
+                                <option value="1" {{ 'selected' if form_data and form_data.geneticRisk == 1 else '' }}>Medium</option>
+                                <option value="2" {{ 'selected' if form_data and form_data.geneticRisk == 2 else '' }}>High</option>
+                            </select>
+                        </div>
+
+                        <!-- Physical Activity -->
+                        <div class="mb-4">
+                            <label for="physicalActivity" class="form-label fw-semibold">
+                                <i class="fas fa-running text-primary me-2"></i>
+                                Physical Activity Level (Hours/week)
+                            </label>
+                            <input type="number" class="form-control form-control-lg" id="physicalActivity" 
+                                   name="physicalActivity" step="0.1" min="0" max="20" required
+                                   value="{{ form_data.physicalActivity if form_data else '' }}">
+                            <div class="form-text">Hours of physical activity per week (0-20)</div>
+                        </div>
+
+                        <!-- Alcohol Intake -->
+                        <div class="mb-4">
+                            <label for="alcoholIntake" class="form-label fw-semibold">
+                                <i class="fas fa-wine-glass text-primary me-2"></i>
+                                Regular Alcohol Consumption
+                            </label>
+                            <select class="form-select form-select-lg" id="alcoholIntake" name="alcoholIntake" required>
+                                <option value="">--Select Alcohol Consumption--</option>
+                                <option value="1" {{ 'selected' if form_data and form_data.alcoholIntake == 1 else '' }}>Yes, regularly</option>
+                                <option value="0" {{ 'selected' if form_data and form_data.alcoholIntake == 0 else '' }}>No or rarely</option>
+                            </select>
+                        </div>
+
+                        <!-- Cancer History -->
+                        <div class="mb-4">
+                            <label for="cancerHistory" class="form-label fw-semibold">
+                                <i class="fas fa-history text-primary me-2"></i>
+                                Personal Cancer History
+                            </label>
+                            <select class="form-select form-select-lg" id="cancerHistory" name="cancerHistory" required>
+                                <option value="">--Select Cancer History--</option>
+                                <option value="1" {{ 'selected' if form_data and form_data.cancerHistory == 1 else '' }}>Yes, previous diagnosis</option>
+                                <option value="0" {{ 'selected' if form_data and form_data.cancerHistory == 0 else '' }}>No cancer history</option>
+                            </select>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg" id="predictBtn">
+                                <i class="fas fa-brain me-2"></i>
+                                Analyze Cancer Risk
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="col-lg-6">
+            {% if prediction_result %}
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-{{ 'danger' if prediction_result.prediction == 1 else 'success' }} text-white">
+                    <h3 class="card-title mb-0">
+                        <i class="fas fa-chart-line me-2"></i>
+                        Risk Assessment Results
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <!-- Risk Level Banner -->
+                    <div class="alert alert-{{ 'danger' if prediction_result.prediction == 1 else 'success' }} border-0 mb-4">
+                        <div class="d-flex align-items-center">
+                            <div class="flex-shrink-0">
+                                <i class="fas fa-{{ 'exclamation-triangle' if prediction_result.prediction == 1 else 'check-circle' }} fa-2x"></i>
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <h4 class="alert-heading mb-1">{{ prediction_result.prediction_text }}</h4>
+                                <p class="mb-0">Risk Probability: <strong>{{ "%.1f"|format(prediction_result.risk_percentage) }}%</strong></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Risk Gauge Chart -->
+                    <div class="mb-4">
+                        <h5 class="fw-semibold mb-3">
+                            <i class="fas fa-tachometer-alt text-primary me-2"></i>
+                            Risk Probability
+                        </h5>
+                        <div style="position: relative; height: 200px;">
+                            <canvas id="riskGauge"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Risk Factors Breakdown -->
+                    <div class="mb-4">
+                        <h5 class="fw-semibold mb-3">
+                            <i class="fas fa-list-ul text-primary me-2"></i>
+                            Risk Factor Analysis
+                        </h5>
+                        <div style="position: relative; height: 300px;">
+                            <canvas id="riskFactorsChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Feature Importance -->
+                    <div class="mb-4">
+                        <h5 class="fw-semibold mb-3">
+                            <i class="fas fa-chart-bar text-primary me-2"></i>
+                            Feature Importance
+                        </h5>
+                        <div style="position: relative; height: 250px;">
+                            <canvas id="featureImportanceChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recommendations Card -->
+            <div class="card border-0 shadow-sm mt-4">
+                <div class="card-header bg-info text-white">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-lightbulb me-2"></i>
+                        Personalized Recommendations
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled mb-0">
+                        {% for recommendation in prediction_result.recommendation %}
+                        <li class="d-flex align-items-start mb-2">
+                            <span class="me-2">{{ recommendation[:2] }}</span>
+                            <span>{{ recommendation[2:] }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            {% else %}
+            <!-- Empty State -->
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body d-flex flex-column justify-content-center align-items-center text-center">
+                    <i class="fas fa-chart-line fa-4x text-muted mb-4"></i>
+                    <h4 class="text-muted">Risk Assessment Results</h4>
+                    <p class="text-muted mb-0">Complete the form to see your cancer risk analysis</p>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% if prediction_result %}
+<script>
+// Pass prediction data to JavaScript
+window.predictionData = {{ prediction_result | tojson | safe }};
+</script>
+{% endif %}
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+// Form validation and enhancement
+document.getElementById('predictionForm').addEventListener('submit', function(e) {
+    const submitBtn = document.getElementById('predictBtn');
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Analyzing...';
+    submitBtn.disabled = true;
+});
+
+// Initialize charts when prediction data is available
+if (typeof window.predictionData !== 'undefined') {
+    document.addEventListener('DOMContentLoaded', function() {
+        initializeCharts(window.predictionData);
+    });
+}
+</script>
+{% endblock %}
